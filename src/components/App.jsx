@@ -5,7 +5,7 @@ class App extends React.Component {
       currentVideo: window.exampleVideoData[0],
       videoList: window.exampleVideoData,
       // currentVideo: {},
-      // videoList: {}
+      // videoList: []
       
 
     };
@@ -13,12 +13,13 @@ class App extends React.Component {
 
   gotVideoResults(videos) {
     this.setState({
+      currentVideo: videos.items[0],
       videoList: videos.items
     });
   }
 
   componentDidMount() {
-    searchYouTube({
+    this.props.searchYouTube({
       key: window.YOUTUBE_API_KEY, q: 'rick astley', maxResults: 10, part: 'snippet'
     }, this.gotVideoResults.bind(this));
   }
