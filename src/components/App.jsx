@@ -6,8 +6,6 @@ class App extends React.Component {
       videoList: window.exampleVideoData,
       // currentVideo: {},
       // videoList: []
-      
-
     };
   }
 
@@ -20,7 +18,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.props.searchYouTube({
-      key: window.YOUTUBE_API_KEY, q: 'rick astley', maxResults: 10, part: 'snippet'
+      key: window.YOUTUBE_API_KEY, q: 'rick astley', maxResults: 5, part: 'snippet'
     }, this.gotVideoResults.bind(this));
   }
 
@@ -30,10 +28,16 @@ class App extends React.Component {
     });
   }
 
+  changeHandler(e) {
+    this.props.searchYouTube({
+      key: window.YOUTUBE_API_KEY, q: e.target.value, maxResults: 5, part: 'snippet'
+    }, this.gotVideoResults.bind(this));    
+  }
+
   render() {
     return (
       <div>
-        <Nav />
+        <Nav changeHandler={this.changeHandler.bind(this)} />
         <div className="col-md-7">
           <VideoPlayer video={this.state.currentVideo}/>
         </div>

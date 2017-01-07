@@ -11,8 +11,8 @@ describe ('Search', function() {
   describe('when rendering live data from YouTube', function() {
     beforeEach(function() {
       searchYouTubeStub = sinon.stub();
-      searchYouTubeStub.onCall(0).yields(window.fakeVideoData);
-      searchYouTubeStub.onCall(1).yields(window.moreFakeVideoData);
+      searchYouTubeStub.onCall(0).yields({items: window.fakeVideoData});
+      searchYouTubeStub.onCall(1).yields({items: window.moreFakeVideoData});
 
       app = renderIntoDocument(
         <App searchYouTube={searchYouTubeStub} />
