@@ -1,12 +1,14 @@
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.timeOfLastRequest = 0;
     this.state = {
       currentVideo: window.exampleVideoData[0],
       videoList: window.exampleVideoData,
       // currentVideo: {},
       // videoList: []
     };
+    this.currentSearch = '';
   }
 
   gotVideoResults(videos) {
@@ -28,10 +30,26 @@ class App extends React.Component {
     });
   }
 
+  performSearch() {
+    if (Date.now() - this.timeOfLastRequest > 500) {
+      this.props.searchYouTube({
+        key: window.YOUTUBE_API_KEY, q: this.currentSearch, maxResults: 5, part: 'snippet'
+      }, this.gotVideoResults.bind(this));  
+      this.timeOfLastRequest = Date.now(); 
+    }  
+  }
+
   changeHandler(e) {
-    this.props.searchYouTube({
-      key: window.YOUTUBE_API_KEY, q: e.target.value, maxResults: 5, part: 'snippet'
-    }, this.gotVideoResults.bind(this));    
+    // compare current time to time of last request
+    this.currentSearch = e.target.value;
+    if (Date.now() - this.timeOfLastRequest > 500) {
+      // if difference > 500ms, perform search:
+      this.performSearch();
+      this.timeOfLastRequest = Date.now();
+      console.log('made ajax request');   
+    } else {
+      window.setTimeout(this.performSearch.bind(this), 500);
+    }
   }
 
   render() {

@@ -12,7 +12,6 @@ var searchYouTube = (options, callback) => {
     // },
     // success: callback,
     success: function(data) {
-      console.log(data);
       callback(data);
       // console.log(data);
     },
