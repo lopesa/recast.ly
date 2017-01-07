@@ -1,10 +1,26 @@
 class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       currentVideo: window.exampleVideoData[0],
-      videoList: window.exampleVideoData
+      videoList: window.exampleVideoData,
+      // currentVideo: {},
+      // videoList: {}
+      
+
     };
+  }
+
+  gotVideoResults(videos) {
+    this.setState({
+      videoList: videos.items
+    });
+  }
+
+  componentDidMount() {
+    searchYouTube({
+      key: window.YOUTUBE_API_KEY, q: 'rick astley', maxResults: 10, part: 'snippet'
+    }, this.gotVideoResults.bind(this));
   }
 
   changeVideo(video) {
